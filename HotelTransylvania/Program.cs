@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+
 namespace HotelTransylvania
 {
     internal class Program
@@ -12,6 +13,10 @@ namespace HotelTransylvania
         {
             var host = CreateHostBuilder(args).Build();
             var serviceScope = host.Services.CreateScope();
+
+            // Make sure the database hase been created and has data in it
+            var dbContext = serviceScope.ServiceProvider.GetService<HotelDbContext>();
+            DbInitializer.Initialize(dbContext);
 
             var startup = serviceScope.ServiceProvider.GetService<Startup>();
             startup.Run();
@@ -30,8 +35,6 @@ namespace HotelTransylvania
             services.AddDbContext<HotelDbContext>(options => options.UseSqlServer(config.GetConnectionString("DefaultConnection")));
             services.AddSingleton<Startup>();
             services.AddSingleton<ConsoleUIService>();
-
         }
-
     }
 }
