@@ -1,21 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting; 
+﻿using HotelTransylvania.Services;
+using HotelTransylvania.UI;
+
 namespace HotelTransylvania
 {
-
     internal class Startup
     {
-        private static IHostBuilder CreateHostBuilder(string[] args)
+        private readonly ConsoleUIService _ui;
+
+        public Startup(ConsoleUIService ui)
         {
-            return Host.CreateDefaultBuilder(args)
-                .ConfigureServices((context, services) => { })
-                .ConfigureAppConfiguration((context, appConfiguration) => appConfiguration.Build());
-                    
+            _ui = ui;
         }
+
+        public void Run()
+        {
+            while (true)
+            {
+                var mainMenuCollection = new MainMenuCollection(_ui);
+                mainMenuCollection.ShowItems();
+                mainMenuCollection.GetInput();
+            }
+        }
+
     }
 }
