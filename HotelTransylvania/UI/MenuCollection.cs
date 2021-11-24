@@ -23,13 +23,11 @@ namespace HotelTransylvania.UI
             int userInput;
             do
             {
-                // These three lines clear the previous input so we can re-display the prompt
                 Console.WriteLine();
                 Console.Write($"Enter a choice (1 - {MenuItems.Count}): ");
             } while (!int.TryParse(Console.ReadLine(), out userInput) ||
             userInput < 1 || userInput > MenuItems.Count);
 
-            // Execute the menu item function
             MenuItems[userInput - 1].Execute();
         }
 

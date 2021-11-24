@@ -11,6 +11,9 @@ namespace HotelTransylvania.Models
         [Precision(2)]
         public decimal RoomSize { get; set; }
 
+        [Required]
+        public ExtraBeds ExtraBeds { get; set; }
+
         public int NumberOfWindows { get; set; }
     }
 }

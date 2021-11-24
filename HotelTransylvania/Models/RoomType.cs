@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using HotelTransylvania.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace HotelTransylvania.Models
 {
@@ -8,8 +9,7 @@ namespace HotelTransylvania.Models
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(15)]
-        public string Type { get; set; }
+        public RoomTypes Type { get; set; }
 
         [MaxLength(100)]
         public string Description { get; set; }
