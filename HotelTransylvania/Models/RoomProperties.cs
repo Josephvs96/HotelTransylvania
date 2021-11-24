@@ -8,7 +8,7 @@ namespace HotelTransylvania.Models
         [Key]
         public int Id { get; set; }
 
-        [Precision(2)]
+        [Precision(5, 2)]
         public decimal RoomSize { get; set; }
 
         [Required]

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
@@ -23,8 +24,14 @@ namespace HotelTransylvania.Models
         public bool IsAvailble { get; set; }
 
         [Required]
-        [Precision(2)]
+        [DefaultValue(true)]
+        public bool IsActive { get; set; }
+
+        [Required]
+        [Precision(5, 2)]
         [DataType(DataType.Currency)]
         public decimal PricePerNight { get; set; }
+
+        public ICollection<Booking> Bookings { get; set; }
     }
 }

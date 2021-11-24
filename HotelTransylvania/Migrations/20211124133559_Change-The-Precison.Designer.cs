@@ -4,6 +4,7 @@ using HotelTransylvania.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotelTransylvania.Migrations
 {
     [DbContext(typeof(HotelDbContext))]
-    partial class HotelDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211124133559_Change-The-Precison")]
+    partial class ChangeThePrecison
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -137,15 +139,12 @@ namespace HotelTransylvania.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
                     b.Property<bool>("IsAvailble")
                         .HasColumnType("bit");
 
                     b.Property<decimal>("PricePerNight")
-                        .HasPrecision(5, 2)
-                        .HasColumnType("decimal(5,2)");
+                        .HasPrecision(4)
+                        .HasColumnType("decimal(4,2)");
 
                     b.Property<int>("RoomNumber")
                         .HasColumnType("int");
@@ -180,8 +179,8 @@ namespace HotelTransylvania.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("RoomSize")
-                        .HasPrecision(5, 2)
-                        .HasColumnType("decimal(5,2)");
+                        .HasPrecision(4)
+                        .HasColumnType("decimal(4,2)");
 
                     b.HasKey("Id");
 
@@ -223,7 +222,7 @@ namespace HotelTransylvania.Migrations
                         .HasForeignKey("PaymentId");
 
                     b.HasOne("HotelTransylvania.Models.Room", "Room")
-                        .WithMany("Bookings")
+                        .WithMany()
                         .HasForeignKey("RoomId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -273,11 +272,6 @@ namespace HotelTransylvania.Migrations
                 });
 
             modelBuilder.Entity("HotelTransylvania.Models.Guest", b =>
-                {
-                    b.Navigation("Bookings");
-                });
-
-            modelBuilder.Entity("HotelTransylvania.Models.Room", b =>
                 {
                     b.Navigation("Bookings");
                 });
