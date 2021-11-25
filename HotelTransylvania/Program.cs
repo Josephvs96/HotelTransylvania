@@ -1,4 +1,5 @@
 ﻿using HotelTransylvania.DataAccess;
+using HotelTransylvania.Interfaces;
 using HotelTransylvania.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -35,6 +36,7 @@ namespace HotelTransylvania
             services.AddDbContext<HotelDbContext>(options => options.UseSqlServer(config.GetConnectionString("DefaultConnection")));
             services.AddSingleton<Startup>();
             services.AddSingleton<ConsoleUIService>();
+            services.AddSingleton<IGuestService, GuestService>();
         }
     }
 }
