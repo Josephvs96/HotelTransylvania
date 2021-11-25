@@ -9,11 +9,11 @@ namespace HotelTransylvania.Models
         public int Id { get; set; }
 
         [Precision(5, 2)]
-        public decimal RoomSize { get; set; }
+        public decimal? RoomSize { get; set; }
 
         [Required]
         public ExtraBeds ExtraBeds { get; set; }
 
-        public int NumberOfWindows { get; set; }
+        public int? NumberOfWindows { get; set; }
     }
 }

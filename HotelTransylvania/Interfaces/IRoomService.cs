@@ -7,6 +7,7 @@ namespace HotelTransylvania.Interfaces
 {
     public interface IRoomService
     {
+        public Room GetRoomById(int roomId);
         public IEnumerable<Room> GetAllRooms();
         public IEnumerable<Room> GetAllAvailableRooms();
         public IEnumerable<Room> GetAllRoomsByType(RoomTypes roomType);

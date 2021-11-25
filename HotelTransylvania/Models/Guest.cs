@@ -14,7 +14,7 @@ namespace HotelTransylvania.Models
         public string Name { get; set; }
 
         [DataType(DataType.EmailAddress)]
-        public string Email { get; set; }
+        public string? Email { get; set; }
 
         [DataType(DataType.PhoneNumber)]
         public string PhoneNumber { get; set; }
