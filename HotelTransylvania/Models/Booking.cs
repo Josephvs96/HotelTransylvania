@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
@@ -21,6 +22,7 @@ namespace HotelTransylvania.Models
         [DataType(DataType.DateTime)]
         public DateTime To { get; set; }
 
+        [Precision(10, 2)]
         [DataType(DataType.Currency)]
         public decimal TotalCost { get; set; }
 

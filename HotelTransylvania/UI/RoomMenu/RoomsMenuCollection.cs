@@ -1,7 +1,7 @@
 ﻿using HotelTransylvania.Services;
 using System.Collections.Generic;
 
-namespace HotelTransylvania.UI
+namespace HotelTransylvania.UI.RoomMenu
 {
     internal class RoomsMenuCollection : MenuCollection
     {
@@ -14,7 +14,7 @@ namespace HotelTransylvania.UI
                 new MenuItem{Description="View available rooms", Execute=HandelViewAvailableRooms},
                 new MenuItem{Description="Add a new room", Execute=HandelAddRoom},
                 new MenuItem{Description="Edit a room", Execute=HandelAddRoom},
-                new MenuItem{Description="Back..", Execute=()=>{ ShouldBreak=true; }}
+                new MenuItem{Description="Back..", Execute=()=> ExitCurrentMenu()}
             };
         }
 

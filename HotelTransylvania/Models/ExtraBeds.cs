@@ -13,15 +13,15 @@ namespace HotelTransylvania.Models
         [DefaultValue(false)]
         public bool HasExtraBeds { get; set; }
 
-        public int NumberOfExtraBeds { get; set; }
+        public int? NumberOfExtraBeds { get; set; }
 
         public ExtraBeds()
         {
 
         }
-        public ExtraBeds(RoomType roomType, int numberOfExtraBeds = 1)
+        public ExtraBeds(RoomTypes roomType, int numberOfExtraBeds = 1)
         {
-            if (roomType.Type == RoomTypes.Double)
+            if (roomType == RoomTypes.Double)
             {
                 HasExtraBeds = true;
                 NumberOfExtraBeds = numberOfExtraBeds;

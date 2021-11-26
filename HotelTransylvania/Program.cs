@@ -1,6 +1,9 @@
 ﻿using HotelTransylvania.DataAccess;
 using HotelTransylvania.Interfaces;
 using HotelTransylvania.Services;
+using HotelTransylvania.UI.GuestMenu;
+using HotelTransylvania.UI.MainMenu;
+using HotelTransylvania.UI.RoomMenu;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -34,9 +37,16 @@ namespace HotelTransylvania
         {
             var config = context.Configuration;
             services.AddDbContext<HotelDbContext>(options => options.UseSqlServer(config.GetConnectionString("DefaultConnection")));
-            services.AddSingleton<Startup>();
+
             services.AddSingleton<ConsoleUIService>();
-            services.AddSingleton<IGuestService, GuestService>();
+
+            services.AddScoped<Startup>();
+            services.AddScoped<IGuestService, GuestService>();
+
+            // Menues
+            services.AddScoped<MainMenuCollection>();
+            services.AddScoped<GuestMenuCollection>();
+            services.AddScoped<RoomsMenuCollection>();
         }
     }
 }

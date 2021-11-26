@@ -1,24 +1,25 @@
 ﻿using HotelTransylvania.Services;
-using HotelTransylvania.UI;
+using HotelTransylvania.UI.MainMenu;
 
 namespace HotelTransylvania
 {
     internal class Startup
     {
         private readonly ConsoleUIService _ui;
+        private readonly MainMenuCollection _mainMenu;
 
-        public Startup(ConsoleUIService ui)
+        public Startup(ConsoleUIService ui, MainMenuCollection mainMenu)
         {
             _ui = ui;
+            _mainMenu = mainMenu;
         }
 
         public void Run()
         {
-            while (true)
+            while (!_mainMenu.ShouldBreak)
             {
-                var mainMenuCollection = new MainMenuCollection(_ui);
-                mainMenuCollection.ShowItems();
-                mainMenuCollection.GetInput();
+                _mainMenu.ShowItems();
+                _mainMenu.GetInput();
             }
         }
 

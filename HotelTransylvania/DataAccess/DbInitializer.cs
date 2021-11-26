@@ -23,53 +23,53 @@ namespace HotelTransylvania.DataAccess
 
             var rooms = new List<Room>
             {
-                new Room { RoomNumber = 100, IsAvailble = true, IsActive=true, PricePerNight = 750.00m, RoomType = doubleRoomType,
+                new Room { RoomNumber = 100, IsActive=true, PricePerNight = 750.00m, RoomType = doubleRoomType,
                     RoomProperties = new RoomProperties
                     {
                         RoomSize=50.00m,
-                        ExtraBeds = new ExtraBeds(doubleRoomType, 1)
+                        ExtraBeds = new ExtraBeds(doubleRoomType.Type, 1)
                     }
                 },
-                new Room { RoomNumber = 101, IsAvailble = true, IsActive=true, PricePerNight = 500.00m, RoomType=singleRoomType,
+                new Room { RoomNumber = 101, IsActive=true, PricePerNight = 500.00m, RoomType=singleRoomType,
                      RoomProperties = new RoomProperties
                      {
                         RoomSize=25.00m,
-                        ExtraBeds = new ExtraBeds(singleRoomType)
+                        ExtraBeds = new ExtraBeds(singleRoomType.Type)
                      }
                 },
-                new Room { RoomNumber = 102, IsAvailble = true, IsActive=true, PricePerNight = 750.00m, RoomType = doubleRoomType,
+                new Room { RoomNumber = 102, IsActive=true, PricePerNight = 750.00m, RoomType = doubleRoomType,
                     RoomProperties = new RoomProperties
                     {
                         RoomSize=75.00m,
-                        ExtraBeds = new ExtraBeds(doubleRoomType, 2)
+                        ExtraBeds = new ExtraBeds(doubleRoomType.Type, 2)
                     }
                 },
-                new Room { RoomNumber = 103, IsAvailble = true, IsActive=true, PricePerNight = 500.00m, RoomType=singleRoomType,
+                new Room { RoomNumber = 103, IsActive=true, PricePerNight = 500.00m, RoomType=singleRoomType,
                      RoomProperties = new RoomProperties
                      {
                         RoomSize=25.00m,
-                        ExtraBeds = new ExtraBeds(singleRoomType)
+                        ExtraBeds = new ExtraBeds(singleRoomType.Type)
                      }
                 },
-                new Room { RoomNumber = 104, IsAvailble = true, IsActive=true, PricePerNight = 750.00m, RoomType = doubleRoomType,
+                new Room { RoomNumber = 104, IsActive=true, PricePerNight = 750.00m, RoomType = doubleRoomType,
                     RoomProperties = new RoomProperties
                     {
                         RoomSize=50.00m,
-                        ExtraBeds = new ExtraBeds(doubleRoomType, 1)
+                        ExtraBeds = new ExtraBeds(doubleRoomType.Type, 1)
                     }
                 },
-                new Room { RoomNumber = 105, IsAvailble = true, IsActive=true, PricePerNight = 500.00m, RoomType=singleRoomType,
+                new Room { RoomNumber = 105, IsActive=true, PricePerNight = 500.00m, RoomType=singleRoomType,
                      RoomProperties = new RoomProperties
                      {
                         RoomSize=25.00m,
-                        ExtraBeds = new ExtraBeds(singleRoomType)
+                        ExtraBeds = new ExtraBeds(singleRoomType.Type)
                      }
                 },
-                 new Room { RoomNumber = 106, IsAvailble = true, IsActive=true, PricePerNight = 750.00m, RoomType = doubleRoomType,
+                 new Room { RoomNumber = 106, IsActive=true, PricePerNight = 750.00m, RoomType = doubleRoomType,
                     RoomProperties = new RoomProperties
                     {
                         RoomSize=75.00m,
-                        ExtraBeds = new ExtraBeds(doubleRoomType, 2)
+                        ExtraBeds = new ExtraBeds(doubleRoomType.Type, 2)
                     }
                 },
             };

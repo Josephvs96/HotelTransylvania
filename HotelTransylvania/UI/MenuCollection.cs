@@ -1,13 +1,12 @@
-﻿using HotelTransylvania.Interfaces;
-using HotelTransylvania.Services;
+﻿using HotelTransylvania.Services;
 using System;
 using System.Collections.Generic;
 
 namespace HotelTransylvania.UI
 {
-    internal abstract class MenuCollection : IMenuCollection
+    internal abstract class MenuCollection
     {
-        private readonly ConsoleUIService _ui;
+        protected readonly ConsoleUIService _ui;
 
         public string CollectionName { get; set; }
         public List<MenuItem> MenuItems { get; set; }
@@ -16,6 +15,22 @@ namespace HotelTransylvania.UI
         public MenuCollection(ConsoleUIService ui)
         {
             _ui = ui;
+        }
+
+        protected void ShowSubMenu<T>(T subMenu) where T : MenuCollection
+        {
+            _ui.ClearConsole();
+            while (!subMenu.ShouldBreak)
+            {
+                subMenu.ShowItems();
+                subMenu.GetInput();
+            }
+        }
+
+        protected void ExitCurrentMenu()
+        {
+            ShouldBreak = true;
+            _ui.ClearConsole();
         }
 
         public void GetInput()

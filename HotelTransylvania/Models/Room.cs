@@ -17,18 +17,15 @@ namespace HotelTransylvania.Models
         [Required]
         public RoomType RoomType { get; set; }
 
-        public RoomProperties RoomProperties { get; set; }
-
         [Required]
-        [DefaultValue(true)]
-        public bool IsAvailble { get; set; }
+        public RoomProperties RoomProperties { get; set; }
 
         [Required]
         [DefaultValue(true)]
         public bool IsActive { get; set; }
 
         [Required]
-        [Precision(5, 2)]
+        [Precision(6, 2)]
         [DataType(DataType.Currency)]
         public decimal PricePerNight { get; set; }
 

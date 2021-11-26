@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotelTransylvania.Migrations
 {
     [DbContext(typeof(HotelDbContext))]
-    [Migration("20211125125508_UpdateSomeFieldsToBeNullable")]
-    partial class UpdateSomeFieldsToBeNullable
+    [Migration("20211126113123_IntitialMirgation")]
+    partial class IntitialMirgation
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -51,7 +51,8 @@ namespace HotelTransylvania.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<decimal>("TotalCost")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(10, 2)
+                        .HasColumnType("decimal(10,2)");
 
                     b.HasKey("Id");
 
@@ -75,7 +76,7 @@ namespace HotelTransylvania.Migrations
                     b.Property<bool>("HasExtraBeds")
                         .HasColumnType("bit");
 
-                    b.Property<int>("NumberOfExtraBeds")
+                    b.Property<int?>("NumberOfExtraBeds")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -119,14 +120,15 @@ namespace HotelTransylvania.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(10, 2)
+                        .HasColumnType("decimal(10,2)");
 
-                    b.Property<int?>("GuestId")
+                    b.Property<int?>("Guests")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("GuestId");
+                    b.HasIndex("Guests");
 
                     b.ToTable("Payments");
                 });
@@ -142,17 +144,14 @@ namespace HotelTransylvania.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsAvailble")
-                        .HasColumnType("bit");
-
                     b.Property<decimal>("PricePerNight")
-                        .HasPrecision(5, 2)
-                        .HasColumnType("decimal(5,2)");
+                        .HasPrecision(6, 2)
+                        .HasColumnType("decimal(6,2)");
 
                     b.Property<int>("RoomNumber")
                         .HasColumnType("int");
 
-                    b.Property<int?>("RoomPropertiesId")
+                    b.Property<int>("RoomPropertiesId")
                         .HasColumnType("int");
 
                     b.Property<int>("RoomTypeId")
@@ -182,8 +181,8 @@ namespace HotelTransylvania.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal?>("RoomSize")
-                        .HasPrecision(5, 2)
-                        .HasColumnType("decimal(5,2)");
+                        .HasPrecision(6, 2)
+                        .HasColumnType("decimal(6,2)");
 
                     b.HasKey("Id");
 
@@ -241,7 +240,7 @@ namespace HotelTransylvania.Migrations
                 {
                     b.HasOne("HotelTransylvania.Models.Guest", "Guest")
                         .WithMany()
-                        .HasForeignKey("GuestId");
+                        .HasForeignKey("Guests");
 
                     b.Navigation("Guest");
                 });
@@ -250,7 +249,9 @@ namespace HotelTransylvania.Migrations
                 {
                     b.HasOne("HotelTransylvania.Models.RoomProperties", "RoomProperties")
                         .WithMany()
-                        .HasForeignKey("RoomPropertiesId");
+                        .HasForeignKey("RoomPropertiesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("HotelTransylvania.Models.RoomType", "RoomType")
                         .WithMany()
