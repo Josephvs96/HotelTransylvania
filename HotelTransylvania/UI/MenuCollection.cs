@@ -17,11 +17,17 @@ namespace HotelTransylvania.UI
             _ui = ui;
         }
 
-        protected void ShowSubMenu<T>(T subMenu) where T : MenuCollection
+        protected void ShowSubMenu<T>(T subMenu, Action action = null) where T : MenuCollection
         {
             _ui.ClearConsole();
             while (!subMenu.ShouldBreak)
             {
+                subMenu.ShowMenuHeader();
+
+                if (action != null)
+                    action.Invoke();
+
+                _ui.PrintToScreen();
                 subMenu.ShowItems();
                 subMenu.GetInput();
             }
@@ -48,11 +54,15 @@ namespace HotelTransylvania.UI
 
         public void ShowItems()
         {
-            _ui.PrintHeader(CollectionName);
             for (int i = 0; i < MenuItems.Count; i++)
             {
                 Console.WriteLine($"  {i + 1}. {MenuItems[i].Description}");
             }
+        }
+
+        public void ShowMenuHeader()
+        {
+            _ui.PrintHeader(CollectionName);
         }
     }
 }

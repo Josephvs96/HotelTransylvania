@@ -1,31 +1,41 @@
 ﻿using HotelTransylvania.Enums;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 
 namespace HotelTransylvania.Services
 {
     internal class ConsoleUIService
     {
-        public string GetUserInput(string message, ConsoleColor fontColor = ConsoleColor.White, ValidationOptions validationOptions = ValidationOptions.None)
+        public T GetUserInput<T>(string message, ConsoleColor fontColor = ConsoleColor.White, ValidationOptions validationOptions = ValidationOptions.None)
         {
-            string output;
+            string consoleInput;
+            T output;
+
+            Console.ForegroundColor = fontColor;
+            Console.Write(message + " ");
 
             if (validationOptions == ValidationOptions.Required)
             {
                 do
                 {
-                    Console.ForegroundColor = fontColor;
-                    Console.Write(message + " ");
-                    output = Console.ReadLine();
-                } while (string.IsNullOrEmpty(output));
+                    consoleInput = Console.ReadLine();
+                } while (string.IsNullOrEmpty(consoleInput));
+            }
+            else
+                consoleInput = Console.ReadLine();
 
+            try
+            {
+                output = (T)Convert.ChangeType(consoleInput, typeof(T));
                 return output;
             }
-
-            Console.ForegroundColor = fontColor;
-            Console.Write(message + " ");
-            return Console.ReadLine();
-
+            catch (Exception)
+            {
+                PrintNotification("Please enter a valid value", ConsoleColor.Red);
+                return GetUserInput<T>(message, fontColor, validationOptions);
+            }
         }
 
         public void PrintToScreen(string message = "", ConsoleColor fontColor = ConsoleColor.White)
@@ -36,8 +46,11 @@ namespace HotelTransylvania.Services
 
         public void PrintNotification(string message, ConsoleColor fontColor = ConsoleColor.White)
         {
-            PrintToScreen(message, fontColor);
-            Thread.Sleep(1000);
+            Console.ForegroundColor = fontColor;
+            Console.Write(message);
+            Timer timer = new Timer((s) => { Console.Write("."); }, null, 0, 750);
+            Thread.Sleep(2000);
+            timer.Dispose();
             ClearConsole();
         }
 
@@ -54,6 +67,29 @@ namespace HotelTransylvania.Services
         internal void ClearConsole()
         {
             Console.Clear();
+        }
+
+        public T PrintMultipleChoiceMenuAndGetInput<T>(IEnumerable<T> multipleChoices, string message = "")
+        {
+            if (!string.IsNullOrEmpty(message))
+                PrintToScreen(message);
+
+            int choicesCount = multipleChoices.Count();
+
+            for (int i = 0; i < choicesCount; i++)
+            {
+                Console.WriteLine($"  {i + 1}. {multipleChoices.ElementAt(i)}");
+            }
+
+            int userInput;
+            do
+            {
+                Console.WriteLine();
+                Console.Write($"Enter a choice (1 - {choicesCount}): ");
+            } while (!int.TryParse(Console.ReadLine(), out userInput) ||
+            userInput < 1 || userInput > choicesCount);
+
+            return multipleChoices.ElementAt(userInput - 1);
         }
     }
 }

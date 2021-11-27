@@ -31,6 +31,8 @@ namespace HotelTransylvania.Models
 
         public Payment Payment { get; set; }
 
+        public bool IsBookingCheckedOut() => DateTime.UtcNow > To;
+
         public int BookingLength() => To.Subtract(From).Days;
 
         public bool IsPaymentDue() => DateTime.UtcNow.Subtract(From).Days > 10;

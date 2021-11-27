@@ -3,42 +3,35 @@ using HotelTransylvania.Models;
 using HotelTransylvania.Services;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace HotelTransylvania.UI.GuestMenu
 {
     internal class GuestMenuCollection : MenuCollection
     {
         private readonly IGuestService _guestService;
+        private readonly IServiceProvider _serviceProvider;
 
-        public GuestMenuCollection(ConsoleUIService ui, IGuestService guestService) : base(ui)
+        public GuestMenuCollection(ConsoleUIService ui, IGuestService guestService, IServiceProvider serviceProvider) : base(ui)
         {
+            _guestService = guestService;
+            _serviceProvider = serviceProvider;
             CollectionName = "Guests Managment";
-
             MenuItems = new List<MenuItem> {
                 new MenuItem
                 {
-                    Description = "Search for guest by name",
-                    Execute= ()=>{}
-                },
-                new MenuItem
-                {
-                    Description = "Search for guest by Id",
-                    Execute = ()=>{}
-                },
-                new MenuItem
-                {
                     Description = "Add new guest",
-                    Execute = HandelAddNewGuest // ShowSubMenu(_newGuestMenu)
+                    Execute = HandleAddNewGuest
                 },
                 new MenuItem
                 {
-                    Description = "Update guest information",
-                    Execute = ()=>{}
+                    Description = "Search for guest by name",
+                    Execute = HandleSearchByName
                 },
                 new MenuItem
                 {
-                    Description = "Delete guest",
-                    Execute = ()=>{}
+                    Description = "Search for guest by id",
+                    Execute = HandleSearchById
                 },
                 new MenuItem
                 {
@@ -46,21 +39,20 @@ namespace HotelTransylvania.UI.GuestMenu
                     Execute = () => ExitCurrentMenu()
                 }
             };
-            _guestService = guestService;
         }
 
-        private void HandelAddNewGuest()
+        private void HandleAddNewGuest()
         {
             var newGuest = new Guest();
-
             _ui.PrintToScreen("Add new guest", ConsoleColor.Cyan);
-            newGuest.Name = _ui.GetUserInput("Name: ", validationOptions: Enums.ValidationOptions.Required);
-            newGuest.PhoneNumber = _ui.GetUserInput("Phone number: ");
-            newGuest.Email = _ui.GetUserInput("Email address: ");
+            newGuest.Name = _ui.GetUserInput<string>("Name: ", validationOptions: Enums.ValidationOptions.Required);
+            newGuest.PhoneNumber = _ui.GetUserInput<string>("Phone number: ");
+            newGuest.Email = _ui.GetUserInput<string>("Email address: ");
 
             try
             {
                 _guestService.AddGuste(newGuest);
+                _ui.ClearConsole();
                 _ui.PrintNotification("New guest added successfuly!", ConsoleColor.Green);
             }
             catch (Exception)
@@ -68,6 +60,43 @@ namespace HotelTransylvania.UI.GuestMenu
                 _ui.PrintNotification("Couldn't add new guest, please try again!", ConsoleColor.Red);
 
             }
+        }
+
+        private void HandleSearchByName()
+        {
+            _ui.PrintToScreen("Search by name", ConsoleColor.Cyan);
+            var nameToSearch = _ui.GetUserInput<string>("Name: ", validationOptions: Enums.ValidationOptions.Required);
+            var guestsFound = _guestService.GetGuestByName(nameToSearch);
+
+            _ui.PrintToScreen();
+
+            if (guestsFound.Count() == 0)
+            {
+                _ui.PrintNotification($"No guests by the name {nameToSearch} could be found", ConsoleColor.Red);
+                return;
+            }
+
+            _ui.PrintToScreen("Guests found", ConsoleColor.Cyan);
+            var selectedUser = _ui.PrintMultipleChoiceMenuAndGetInput(guestsFound, "Please select a guest");
+
+            ShowSubMenu(new SelectedGuestMenuCollection(_ui, _guestService, selectedUser), () => _ui.PrintToScreen("Selected user: " + selectedUser, ConsoleColor.Cyan));
+        }
+
+        private void HandleSearchById()
+        {
+            _ui.PrintToScreen("Search by Id", ConsoleColor.Cyan);
+            var id = _ui.GetUserInput<int>("Enter the guests id: ", validationOptions: Enums.ValidationOptions.Required);
+            var guestFound = _guestService.GetGuestById(id);
+
+            _ui.PrintToScreen();
+
+            if (guestFound is null)
+            {
+                _ui.PrintNotification($"No guest with the id {id} could be found", ConsoleColor.Red);
+                return;
+            }
+
+            ShowSubMenu(new SelectedGuestMenuCollection(_ui, _guestService, guestFound), () => _ui.PrintToScreen("Selected user: " + guestFound, ConsoleColor.Cyan));
         }
     }
 }

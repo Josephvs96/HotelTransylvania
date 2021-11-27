@@ -1,6 +1,7 @@
 ﻿using HotelTransylvania.DataAccess;
 using HotelTransylvania.Interfaces;
 using HotelTransylvania.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,34 +25,35 @@ namespace HotelTransylvania.Services
 
         public Guest GetGuestById(int id)
         {
-            return _db.Guests.Where(g => g.Id == id).FirstOrDefault();
+            return _db.Guests.Include(g => g.Bookings).Where(g => g.Id == id && g.IsActive).FirstOrDefault();
         }
 
         public IEnumerable<Guest> GetGuestByName(string name)
         {
-            return _db.Guests.Where(g => g.Name.Contains(name));
+            return _db.Guests.Include(g => g.Bookings).Where(g => g.Name.Contains(name) && g.IsActive);
         }
 
         public void RemoveGuste(Guest guest)
         {
-            var guestToRemove = _db.Guests.Find(guest);
+            var guestToRemoved = _db.Guests.Find(guest.Id);
 
-            if (guestToRemove is null) throw new Exception("Guest not found");
+            // TODO: Custom exceptions
+            if (guestToRemoved is null) throw new Exception("Guest not found");
 
-            guestToRemove.IsActive = false;
+            if (guestToRemoved.HasActiveBookings()) throw new Exception("The guest has active bookings and cannot be removed");
 
-            _db.Guests.Update(guestToRemove);
+            guestToRemoved.IsActive = false;
+
+            _db.Guests.Update(guestToRemoved);
 
             _db.SaveChanges();
         }
 
         public void UpdateGuste(Guest guest)
         {
-            var guestToUpdate = _db.Guests.Find(guest);
+            var guestToUpdate = _db.Guests.Find(guest.Id);
 
             if (guestToUpdate is null) throw new Exception("Guest not found");
-
-            guestToUpdate.IsActive = false;
 
             _db.Guests.Update(guestToUpdate);
 

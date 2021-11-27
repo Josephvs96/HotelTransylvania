@@ -18,6 +18,7 @@ namespace HotelTransylvania
         {
             while (!_mainMenu.ShouldBreak)
             {
+                _mainMenu.ShowMenuHeader();
                 _mainMenu.ShowItems();
                 _mainMenu.GetInput();
             }
