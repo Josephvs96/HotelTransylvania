@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using HotelTransylvania.Helpers;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -29,7 +30,7 @@ namespace HotelTransylvania.Models
 
         public override string ToString()
         {
-            return $"Guest Id: {Id} Name: {Name} Email: {Email ?? "No email entered"} Phone: {PhoneNumber ?? "No phone number entered"} Number of active bookings {Bookings?.Count(x => !x.IsBookingCheckedOut()) ?? 0}";
+            return $"Guest Id: {Id} - Name: {Name} - Email: {Email.StringHasValue() ?? "No email entered"} - Phone: {PhoneNumber.StringHasValue() ?? "No phone number entered"} - Number of active bookings {Bookings?.Count(x => !x.IsBookingCheckedOut()) ?? 0}";
         }
     }
 }

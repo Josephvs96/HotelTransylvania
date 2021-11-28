@@ -1,4 +1,5 @@
 ﻿using HotelTransylvania.Enums;
+using HotelTransylvania.Helpers;
 using HotelTransylvania.Interfaces;
 using HotelTransylvania.Models;
 using HotelTransylvania.Services;
@@ -42,8 +43,8 @@ namespace HotelTransylvania.UI.GuestMenu
         {
             _ui.PrintToScreen("Please enter the values required to be changed, leave empty to use the current value", ConsoleColor.Cyan);
             var newName = _ui.GetUserInput<string>($"Name (Current: {_guest.Name}): ");
-            var newEmail = _ui.GetUserInput<string>($"Email (Current: {_guest.Email}): ");
-            var newPhoneNumber = _ui.GetUserInput<string>($"Phone Number (Current: {_guest.PhoneNumber}): ");
+            var newEmail = _ui.GetUserInput<string>($"Email (Current: {_guest.Email.StringHasValue() ?? "No Value"}): ");
+            var newPhoneNumber = _ui.GetUserInput<string>($"Phone Number (Current: {_guest.PhoneNumber.StringHasValue() ?? "No Value"}): ");
 
             _guest.Name = string.IsNullOrEmpty(newName) ? _guest.Name : newName;
             _guest.Email = string.IsNullOrEmpty(newEmail) ? _guest.Email : newEmail;
