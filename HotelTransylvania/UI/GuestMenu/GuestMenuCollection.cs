@@ -1,9 +1,6 @@
 ﻿using HotelTransylvania.Interfaces;
 using HotelTransylvania.Models;
 using HotelTransylvania.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace HotelTransylvania.UI.GuestMenu
 {

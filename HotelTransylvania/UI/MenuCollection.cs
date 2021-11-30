@@ -1,6 +1,4 @@
 ﻿using HotelTransylvania.Services;
-using System;
-using System.Collections.Generic;
 
 namespace HotelTransylvania.UI
 {

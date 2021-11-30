@@ -1,10 +1,8 @@
 ﻿using HotelTransylvania.DataAccess;
+using HotelTransylvania.Exceptions;
 using HotelTransylvania.Interfaces;
 using HotelTransylvania.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace HotelTransylvania.Services
 {
@@ -37,10 +35,9 @@ namespace HotelTransylvania.Services
         {
             var guestToRemoved = _db.Guests.Find(guest.Id);
 
-            // TODO: Custom exceptions
-            if (guestToRemoved is null) throw new Exception("Guest not found");
+            if (guestToRemoved is null) throw new GuestNotFoundException();
 
-            if (guestToRemoved.HasActiveBookings()) throw new Exception("The guest has active bookings and cannot be removed");
+            if (guestToRemoved.HasActiveBookings()) throw new GuestHasActiveBookingsException();
 
             guestToRemoved.IsActive = false;
 

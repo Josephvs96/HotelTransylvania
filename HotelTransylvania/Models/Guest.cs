@@ -1,8 +1,6 @@
 ﻿using HotelTransylvania.Helpers;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 
 namespace HotelTransylvania.Models
 {
@@ -26,7 +24,7 @@ namespace HotelTransylvania.Models
 
         public ICollection<Booking> Bookings { get; set; }
 
-        public bool HasActiveBookings() => Bookings.Where(b => b.IsBookingCheckedOut()).Any();
+        public bool HasActiveBookings() => Bookings.Where(b => !b.IsBookingCheckedOut()).Any();
 
         public override string ToString()
         {

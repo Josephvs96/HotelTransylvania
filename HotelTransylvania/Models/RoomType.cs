@@ -13,5 +13,10 @@ namespace HotelTransylvania.Models
 
         [MaxLength(100)]
         public string Description { get; set; }
+
+        public override string ToString()
+        {
+            return $"Room type: {Type} - Description: {Description}";
+        }
     }
 }

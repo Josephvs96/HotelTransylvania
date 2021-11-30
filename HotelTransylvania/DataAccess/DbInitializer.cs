@@ -1,6 +1,4 @@
 ﻿using HotelTransylvania.Models;
-using System.Collections.Generic;
-using System.Linq;
 
 
 namespace HotelTransylvania.DataAccess

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace HotelTransylvania.UI
+﻿namespace HotelTransylvania.UI
 {
     /// <summary>
     /// Represents a menu item of a console menu

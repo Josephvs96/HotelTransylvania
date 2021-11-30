@@ -1,5 +1,4 @@
 ﻿using HotelTransylvania.Models;
-using System.Collections.Generic;
 
 namespace HotelTransylvania.Interfaces
 {

@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Text;
 
 namespace HotelTransylvania
 {
@@ -15,6 +16,8 @@ namespace HotelTransylvania
     {
         static void Main(string[] args)
         {
+            Console.OutputEncoding = Encoding.UTF8;
+
             var host = CreateHostBuilder(args).Build();
             var serviceScope = host.Services.CreateScope();
 
@@ -42,6 +45,7 @@ namespace HotelTransylvania
 
             services.AddScoped<Startup>();
             services.AddScoped<IGuestService, GuestService>();
+            services.AddScoped<IRoomService, RoomService>();
 
             // Menues
             services.AddScoped<MainMenuCollection>();
