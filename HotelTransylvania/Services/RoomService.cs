@@ -1,5 +1,5 @@
 ﻿using HotelTransylvania.DataAccess;
-using HotelTransylvania.Enums;
+using HotelTransylvania.CustomTypes;
 using HotelTransylvania.Exceptions;
 using HotelTransylvania.Interfaces;
 using HotelTransylvania.Models;

@@ -42,7 +42,7 @@ namespace HotelTransylvania.UI.GuestMenu
         {
             var newGuest = new Guest();
             _ui.PrintToScreen("Add new guest", ConsoleColor.Cyan);
-            newGuest.Name = _ui.GetUserInput<string>("Name: ", validationOptions: Enums.ValidationOptions.Required);
+            newGuest.Name = _ui.GetUserInput<string>("Name: ", validationOptions: CustomTypes.ValidationOptions.Required);
             newGuest.PhoneNumber = _ui.GetUserInput<string>("Phone number: ");
             newGuest.Email = _ui.GetUserInput<string>("Email address: ");
 
@@ -62,7 +62,7 @@ namespace HotelTransylvania.UI.GuestMenu
         private void HandleSearchByName()
         {
             _ui.PrintToScreen("Search by name", ConsoleColor.Cyan);
-            var nameToSearch = _ui.GetUserInput<string>("Name: ", validationOptions: Enums.ValidationOptions.Required);
+            var nameToSearch = _ui.GetUserInput<string>("Name: ", validationOptions: CustomTypes.ValidationOptions.Required);
             var guestsFound = _guestService.GetGuestByName(nameToSearch);
 
             _ui.PrintToScreen();
@@ -82,7 +82,7 @@ namespace HotelTransylvania.UI.GuestMenu
         private void HandleSearchById()
         {
             _ui.PrintToScreen("Search by Id", ConsoleColor.Cyan);
-            var id = _ui.GetUserInput<int>("Enter the guests id: ", validationOptions: Enums.ValidationOptions.Required);
+            var id = _ui.GetUserInput<int>("Enter the guests id: ", validationOptions: CustomTypes.ValidationOptions.Required);
             var guestFound = _guestService.GetGuestById(id);
 
             _ui.PrintToScreen();

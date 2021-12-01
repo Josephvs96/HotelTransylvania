@@ -1,4 +1,4 @@
-﻿using HotelTransylvania.Enums;
+﻿using HotelTransylvania.CustomTypes;
 using HotelTransylvania.Helpers;
 using HotelTransylvania.Interfaces;
 using HotelTransylvania.Models;

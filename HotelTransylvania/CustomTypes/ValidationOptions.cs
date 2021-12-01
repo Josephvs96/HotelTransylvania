@@ -1,4 +1,4 @@
-﻿namespace HotelTransylvania.Enums
+﻿namespace HotelTransylvania.CustomTypes
 {
     internal enum ValidationOptions
     {

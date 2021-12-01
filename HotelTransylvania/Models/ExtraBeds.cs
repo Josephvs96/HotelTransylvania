@@ -1,4 +1,4 @@
-﻿using HotelTransylvania.Enums;
+﻿using HotelTransylvania.CustomTypes;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 

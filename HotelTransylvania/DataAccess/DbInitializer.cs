@@ -16,8 +16,8 @@ namespace HotelTransylvania.DataAccess
 
             // Seed some data here ...
 
-            var singleRoomType = new RoomType { Type = Enums.RoomTypes.Single, Description = "A single room" };
-            var doubleRoomType = new RoomType { Type = Enums.RoomTypes.Double, Description = "A double room" };
+            var singleRoomType = new RoomType { Type = CustomTypes.RoomTypes.Single, Description = "A single room" };
+            var doubleRoomType = new RoomType { Type = CustomTypes.RoomTypes.Double, Description = "A double room" };
 
             var rooms = new List<Room>
             {
