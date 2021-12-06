@@ -2,7 +2,7 @@
 
 namespace HotelTransylvania.UI
 {
-    internal abstract class MenuCollection
+    internal abstract class MenuBase
     {
         protected readonly ConsoleUIService _ui;
 
@@ -10,12 +10,12 @@ namespace HotelTransylvania.UI
         public List<MenuItem> MenuItems { get; set; }
         public bool ShouldBreak { get; set; } = false;
 
-        public MenuCollection(ConsoleUIService ui)
+        public MenuBase(ConsoleUIService ui)
         {
             _ui = ui;
         }
 
-        protected void ShowSubMenu<T>(T subMenu, Action action = null) where T : MenuCollection
+        protected void ShowSubMenu<T>(T subMenu, Action action = null) where T : MenuBase
         {
             _ui.ClearConsole();
             while (!subMenu.ShouldBreak)

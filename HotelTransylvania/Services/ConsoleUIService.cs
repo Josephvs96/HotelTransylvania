@@ -1,4 +1,5 @@
 ﻿using HotelTransylvania.CustomTypes;
+using HotelTransylvania.Helpers;
 
 namespace HotelTransylvania.Services
 {
@@ -24,6 +25,10 @@ namespace HotelTransylvania.Services
 
             try
             {
+
+                if (string.IsNullOrEmpty(consoleInput) && typeof(T).IsNumeric())
+                    return (T)Convert.ChangeType(-1, typeof(T));
+
                 output = (T)Convert.ChangeType(consoleInput, typeof(T));
                 return output;
             }
@@ -44,9 +49,8 @@ namespace HotelTransylvania.Services
         {
             Console.ForegroundColor = fontColor;
             Console.Write(message);
-            Timer timer = new Timer((s) => { Console.Write("."); }, null, 0, 750);
-            Thread.Sleep(2000);
-            timer.Dispose();
+            Console.WriteLine("\nPress any key to continue...");
+            Console.ReadLine();
             ClearConsole();
         }
 
@@ -65,12 +69,18 @@ namespace HotelTransylvania.Services
             Console.Clear();
         }
 
-        public T PrintMultipleChoiceMenuAndGetInput<T>(IEnumerable<T> multipleChoices, string message = "")
+        public T PrintMultipleChoiceMenuAndGetInput<T>(IEnumerable<T> multipleChoices, string message = "", ConsoleColor fontColor = ConsoleColor.White)
         {
             if (!string.IsNullOrEmpty(message))
-                PrintToScreen(message);
+                PrintToScreen(message, fontColor);
 
             int choicesCount = multipleChoices.Count();
+
+            if (choicesCount == 0)
+            {
+                PrintNotification("No items could be found...", ConsoleColor.Red);
+                return default(T);
+            }
 
             for (int i = 0; i < choicesCount; i++)
             {

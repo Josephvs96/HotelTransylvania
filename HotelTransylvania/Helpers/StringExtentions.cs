@@ -10,6 +10,7 @@
         public static string StringHasValue(this string stringToBeChecked) =>
                     !string.IsNullOrEmpty(stringToBeChecked) ? stringToBeChecked : null;
 
+
         /// <summary>
         /// Checkes a string weather it's null and returns another string otherwize returens the string
         /// </summary>
@@ -18,5 +19,19 @@
         /// <returns>The string it has a value and not empty otherwize retures another predeffined string</returns>
         public static string StringHasValue(this string stringToBeChecked, string outputString) =>
                     !string.IsNullOrEmpty(stringToBeChecked) ? stringToBeChecked : outputString;
+
+
+        /// <summary>
+        /// Nullable Helper for formating a string 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="x"></param>
+        /// <param name="format"></param>
+        /// <returns></returns>
+        public static string ToString<T>(this T? x, string format) where T : struct
+        {
+            return x.HasValue ? string.Format(format, x.Value) : null;
+        }
+
     }
 }

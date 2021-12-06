@@ -1,6 +1,7 @@
 ﻿using HotelTransylvania.DataAccess;
 using HotelTransylvania.Interfaces;
 using HotelTransylvania.Services;
+using HotelTransylvania.UI.BookingMenu;
 using HotelTransylvania.UI.GuestMenu;
 using HotelTransylvania.UI.MainMenu;
 using HotelTransylvania.UI.RoomMenu;
@@ -27,13 +28,11 @@ namespace HotelTransylvania
 
             var startup = serviceScope.ServiceProvider.GetService<Startup>();
             startup.Run();
-
         }
 
         private static IHostBuilder CreateHostBuilder(string[] args)
         {
             return Host.CreateDefaultBuilder(args).ConfigureServices(ConfigureServices);
-
         }
 
         private static void ConfigureServices(HostBuilderContext context, IServiceCollection services)
@@ -46,11 +45,13 @@ namespace HotelTransylvania
             services.AddScoped<Startup>();
             services.AddScoped<IGuestService, GuestService>();
             services.AddScoped<IRoomService, RoomService>();
+            services.AddScoped<IBookingService, BookingService>();
 
             // Menues
-            services.AddScoped<MainMenuCollection>();
-            services.AddScoped<GuestMenuCollection>();
-            services.AddScoped<RoomsMenuCollection>();
+            services.AddScoped<MainMenu>();
+            services.AddScoped<GuestMenu>();
+            services.AddScoped<RoomsMenu>();
+            services.AddScoped<BookingMenu>();
         }
     }
 }

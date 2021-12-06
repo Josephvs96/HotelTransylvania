@@ -4,12 +4,12 @@ using HotelTransylvania.Services;
 
 namespace HotelTransylvania.UI.GuestMenu
 {
-    internal class GuestMenuCollection : MenuCollection
+    internal class GuestMenu : MenuBase
     {
         private readonly IGuestService _guestService;
         private readonly IServiceProvider _serviceProvider;
 
-        public GuestMenuCollection(ConsoleUIService ui, IGuestService guestService, IServiceProvider serviceProvider) : base(ui)
+        public GuestMenu(ConsoleUIService ui, IGuestService guestService, IServiceProvider serviceProvider) : base(ui)
         {
             _guestService = guestService;
             _serviceProvider = serviceProvider;
@@ -76,24 +76,23 @@ namespace HotelTransylvania.UI.GuestMenu
             _ui.PrintToScreen("Guests found", ConsoleColor.Cyan);
             var selectedUser = _ui.PrintMultipleChoiceMenuAndGetInput(guestsFound, "Please select a guest");
 
-            ShowSubMenu(new SelectedGuestMenuCollection(_ui, _guestService, selectedUser), () => _ui.PrintToScreen("Selected user: " + selectedUser, ConsoleColor.Cyan));
+            ShowSubMenu(new SelectedGuestMenu(_ui, _guestService, selectedUser), () => _ui.PrintToScreen("Selected user: " + selectedUser, ConsoleColor.Cyan));
         }
 
         private void HandleSearchById()
         {
-            _ui.PrintToScreen("Search by Id", ConsoleColor.Cyan);
-            var id = _ui.GetUserInput<int>("Enter the guests id: ", validationOptions: CustomTypes.ValidationOptions.Required);
-            var guestFound = _guestService.GetGuestById(id);
-
-            _ui.PrintToScreen();
-
-            if (guestFound is null)
+            try
             {
-                _ui.PrintNotification($"No guest with the id {id} could be found", ConsoleColor.Red);
-                return;
+                _ui.PrintToScreen("Search by Id", ConsoleColor.Cyan);
+                var id = _ui.GetUserInput<int>("Enter the guests id: ", validationOptions: CustomTypes.ValidationOptions.Required);
+                var guestFound = _guestService.GetGuestById(id);
+                ShowSubMenu(new SelectedGuestMenu(_ui, _guestService, guestFound), () => _ui.PrintToScreen("Selected user: " + guestFound, ConsoleColor.Cyan));
+                _ui.PrintToScreen();
             }
-
-            ShowSubMenu(new SelectedGuestMenuCollection(_ui, _guestService, guestFound), () => _ui.PrintToScreen("Selected user: " + guestFound, ConsoleColor.Cyan));
+            catch (Exception)
+            {
+                _ui.PrintNotification($"No guest with this id could be found", ConsoleColor.Red);
+            }
         }
     }
 }

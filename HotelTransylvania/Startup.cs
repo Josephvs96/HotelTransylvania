@@ -6,9 +6,9 @@ namespace HotelTransylvania
     internal class Startup
     {
         private readonly ConsoleUIService _ui;
-        private readonly MainMenuCollection _mainMenu;
+        private readonly MainMenu _mainMenu;
 
-        public Startup(ConsoleUIService ui, MainMenuCollection mainMenu)
+        public Startup(ConsoleUIService ui, MainMenu mainMenu)
         {
             _ui = ui;
             _mainMenu = mainMenu;

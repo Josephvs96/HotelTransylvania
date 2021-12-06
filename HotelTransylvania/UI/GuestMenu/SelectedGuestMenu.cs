@@ -6,12 +6,12 @@ using HotelTransylvania.Services;
 
 namespace HotelTransylvania.UI.GuestMenu
 {
-    internal class SelectedGuestMenuCollection : MenuCollection
+    internal class SelectedGuestMenu : MenuBase
     {
         private readonly IGuestService _guestService;
         private readonly Guest _guest;
 
-        public SelectedGuestMenuCollection(ConsoleUIService ui, IGuestService guestService, Guest guest) : base(ui)
+        public SelectedGuestMenu(ConsoleUIService ui, IGuestService guestService, Guest guest) : base(ui)
         {
             _guestService = guestService;
             _guest = guest;

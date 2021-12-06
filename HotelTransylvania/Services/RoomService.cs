@@ -1,5 +1,5 @@
-﻿using HotelTransylvania.DataAccess;
-using HotelTransylvania.CustomTypes;
+﻿using HotelTransylvania.CustomTypes;
+using HotelTransylvania.DataAccess;
 using HotelTransylvania.Exceptions;
 using HotelTransylvania.Interfaces;
 using HotelTransylvania.Models;
@@ -13,14 +13,6 @@ namespace HotelTransylvania.Services
         public RoomService(HotelDbContext db)
         {
             _db = db;
-        }
-
-        public IEnumerable<Room> GetAllRooms()
-        {
-            return _db.Rooms.Include(r => r.RoomProperties)
-                            .ThenInclude(rp => rp.ExtraBeds)
-                            .Include(r => r.RoomType)
-                            .Include(r => r.Bookings);
         }
 
         public IEnumerable<Room> GetAllRoomsByType(RoomTypes roomType)
@@ -37,32 +29,34 @@ namespace HotelTransylvania.Services
             switch (numberOfPeople)
             {
                 case 1:
-                    return _db.Rooms.Include(r => r.Bookings)
+                    {
+                        return _db.Rooms.Include(r => r.Bookings)
                                     .Include(r => r.RoomType)
-                                    .Where(r => r.IsRoomAvaiableByDateRange(bookingRange) && r.RoomType.Type == RoomTypes.Single)
-                                    .Include(r => r.RoomProperties);
+                                    .Include(r => r.RoomProperties)
+                                    .Where(r =>
+                                    r.IsActive &&
+                                    r.RoomType.Type == RoomTypes.Single)
+                                    .ToList()
+                                    .Where(r => r.IsRoomAvaiableByDateRange(bookingRange));
+                    }
+
 
                 case > 1:
-                    return _db.Rooms.Include(r => r.Bookings)
+                    {
+                        return _db.Rooms.Include(r => r.Bookings)
                                     .Include(r => r.RoomProperties)
                                     .ThenInclude(rp => rp.ExtraBeds)
                                     .Include(r => r.RoomType)
                                     .Where(r =>
-                                    r.IsRoomAvaiableByDateRange(bookingRange) &&
+                                    r.IsActive &&
                                     r.RoomType.Type == RoomTypes.Double &&
-                                    r.RoomProperties.ExtraBeds.NumberOfExtraBeds >= numberOfPeople);
+                                    r.RoomProperties.ExtraBeds.NumberOfExtraBeds >= numberOfPeople - 2)
+                                    .ToList()
+                                    .Where(r => r.IsRoomAvaiableByDateRange(bookingRange));
+                    }
+
             }
             return null;
-        }
-
-        public Room GetRoomById(int roomId)
-        {
-            var roomFound = _db.Rooms.Where(r => r.Id == roomId)
-                            .Include(r => r.RoomProperties)
-                            .ThenInclude(rp => rp.ExtraBeds)
-                            .Include(r => r.RoomType).FirstOrDefault();
-
-            return roomFound ?? throw new RoomNotFoundException();
         }
 
         public Room GetRoomByRoomNumber(int roomNumber)
@@ -83,12 +77,6 @@ namespace HotelTransylvania.Services
         public void AddRoom(Room room)
         {
             _db.Rooms.Add(room);
-            _db.SaveChanges();
-        }
-
-        public void DeleteRoom(Room room)
-        {
-            _db.Rooms.Update(room);
             _db.SaveChanges();
         }
 

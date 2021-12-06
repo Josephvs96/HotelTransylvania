@@ -5,7 +5,7 @@ namespace HotelTransylvania.Interfaces
     public interface IBookingService
     {
         public Booking GetBookingById(int id);
-        public IEnumerable<Booking> GetBookingsByGuest(Guest guest);
+        public IEnumerable<Booking> GetBookingsByGuestId(int id);
         public void AddNewBooking(Booking booking);
         public void UpdateBooking(Booking booking);
         public void RemoveBooking(Booking booking);

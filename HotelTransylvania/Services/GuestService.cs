@@ -23,7 +23,7 @@ namespace HotelTransylvania.Services
 
         public Guest GetGuestById(int id)
         {
-            return _db.Guests.Include(g => g.Bookings).Where(g => g.Id == id && g.IsActive).FirstOrDefault();
+            return _db.Guests.Include(g => g.Bookings).Where(g => g.Id == id && g.IsActive).FirstOrDefault() ?? throw new GuestNotFoundException();
         }
 
         public IEnumerable<Guest> GetGuestByName(string name)

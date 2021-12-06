@@ -5,29 +5,41 @@ using HotelTransylvania.Services;
 
 namespace HotelTransylvania.UI.RoomMenu
 {
-    internal class RoomsMenuCollection : MenuCollection
+    internal class RoomsMenu : MenuBase
     {
         private readonly IRoomService _roomService;
 
-        public RoomsMenuCollection(ConsoleUIService ui, IRoomService roomService) : base(ui)
+        public RoomsMenu(ConsoleUIService ui, IRoomService roomService) : base(ui)
         {
             CollectionName = "Rooms Managment";
             MenuItems = new List<MenuItem>
             {
-                new MenuItem{Description="Search for rooms", Execute=HandelSearchForRooms},
-                new MenuItem{Description="Add a new room", Execute=HandelAddRoom},
-                new MenuItem{Description="Edit a room", Execute=HandelEditRoom},
-                new MenuItem{Description="Back..", Execute=()=> ExitCurrentMenu()}
+                new MenuItem{Description="Search for rooms by type", Execute=HandleSearchByType},
+                new MenuItem{Description="Search for rooms by number", Execute=HandleSearchByNumber},
+                new MenuItem{Description="Add a new room", Execute=HandleAddRoom},
+                new MenuItem{Description="Back..", Execute= ExitCurrentMenu}
             };
             _roomService = roomService;
         }
 
-        private void HandelSearchForRooms()
+        private void HandleSearchByType()
         {
-
+            var selectedType = _ui.PrintMultipleChoiceMenuAndGetInput(_roomService.GetRoomTypes(), "Select which type you like to view", ConsoleColor.Cyan);
+            var rooms = _roomService.GetAllRoomsByType(selectedType.Type);
+            var selectedRoom = _ui.PrintMultipleChoiceMenuAndGetInput(rooms, "Select a room", ConsoleColor.Cyan);
+            var selectedRoomMenu = new SelectedRoomMenu(_ui, _roomService, selectedRoom);
+            ShowSubMenu(selectedRoomMenu, () => _ui.PrintToScreen($"Selected room: {selectedRoom}", ConsoleColor.Cyan));
         }
 
-        private void HandelAddRoom()
+        private void HandleSearchByNumber()
+        {
+            var enteredRoomNumber = _ui.GetUserInput<int>("Enter the room number");
+            var selectedRoom = _roomService.GetRoomByRoomNumber(enteredRoomNumber);
+            var selectedRoomMenu = new SelectedRoomMenu(_ui, _roomService, selectedRoom);
+            ShowSubMenu(selectedRoomMenu, () => _ui.PrintToScreen($"Selected room: {selectedRoom}", ConsoleColor.Cyan));
+        }
+
+        private void HandleAddRoom()
         {
             var newRoom = new Room();
             _ui.PrintToScreen("Add new room", ConsoleColor.Cyan);
@@ -55,11 +67,6 @@ namespace HotelTransylvania.UI.RoomMenu
             {
                 _ui.PrintNotification("Error while adding a room " + e.Message, ConsoleColor.Red);
             }
-        }
-
-        private void HandelEditRoom()
-        {
-
         }
     }
 }
