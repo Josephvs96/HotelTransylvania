@@ -21,6 +21,7 @@ namespace HotelTransylvania
                 _mainMenu.ShowMenuHeader();
                 _mainMenu.ShowItems();
                 _mainMenu.GetInput();
+                _mainMenu.ResetMenus();
             }
         }
 

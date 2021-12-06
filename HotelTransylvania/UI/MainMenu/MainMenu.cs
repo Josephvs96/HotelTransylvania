@@ -12,7 +12,6 @@ namespace HotelTransylvania.UI.MainMenu
         public MainMenu(ConsoleUIService ui, RoomsMenu roomsMenu, GuestMenu.GuestMenu guestMenu, BookingMenu.BookingMenu bookingMenu) : base(ui)
         {
             CollectionName = "Main Menu";
-
             MenuItems = new List<MenuItem>
             {
                 new MenuItem { Description = "Rooms Managment", Execute = () => ShowSubMenu(_roomsMenu) },
@@ -25,6 +24,14 @@ namespace HotelTransylvania.UI.MainMenu
             _guestMenu = guestMenu;
             _bookingMenu = bookingMenu;
         }
+
+        public void ResetMenus()
+        {
+            _bookingMenu.ShouldBreak = false;
+            _guestMenu.ShouldBreak = false;
+            _roomsMenu.ShouldBreak = false;
+        }
+
     }
 }
 

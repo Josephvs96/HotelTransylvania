@@ -22,5 +22,7 @@
                     return false;
             }
         }
+
+        public static bool IsDateTime(this Type type) => Type.GetTypeCode(type) == TypeCode.DateTime;
     }
 }

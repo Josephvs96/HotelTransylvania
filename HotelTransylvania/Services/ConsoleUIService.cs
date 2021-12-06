@@ -29,6 +29,9 @@ namespace HotelTransylvania.Services
                 if (string.IsNullOrEmpty(consoleInput) && typeof(T).IsNumeric())
                     return (T)Convert.ChangeType(-1, typeof(T));
 
+                if (string.IsNullOrEmpty(consoleInput) && typeof(T).IsDateTime())
+                    return default(T);
+
                 output = (T)Convert.ChangeType(consoleInput, typeof(T));
                 return output;
             }

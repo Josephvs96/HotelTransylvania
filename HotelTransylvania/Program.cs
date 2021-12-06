@@ -42,16 +42,16 @@ namespace HotelTransylvania
 
             services.AddSingleton<ConsoleUIService>();
 
-            services.AddScoped<Startup>();
-            services.AddScoped<IGuestService, GuestService>();
-            services.AddScoped<IRoomService, RoomService>();
-            services.AddScoped<IBookingService, BookingService>();
+            services.AddTransient<IGuestService, GuestService>();
+            services.AddTransient<IRoomService, RoomService>();
+            services.AddTransient<IBookingService, BookingService>();
+            services.AddTransient<Startup>();
 
             // Menues
-            services.AddScoped<MainMenu>();
-            services.AddScoped<GuestMenu>();
-            services.AddScoped<RoomsMenu>();
-            services.AddScoped<BookingMenu>();
+            services.AddTransient<MainMenu>();
+            services.AddTransient<GuestMenu>();
+            services.AddTransient<RoomsMenu>();
+            services.AddTransient<BookingMenu>();
         }
     }
 }

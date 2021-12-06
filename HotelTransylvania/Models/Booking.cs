@@ -32,7 +32,7 @@ namespace HotelTransylvania.Models
 
         public bool IsBookingCheckedOut() => DateTime.UtcNow > To;
 
-        public int BookingLength() => To.Subtract(From).Days;
+        public int BookingLength() => (int)Math.Ceiling(To.Subtract(From).TotalDays);
 
         public bool IsPaymentDue() => DateTime.UtcNow.Subtract(From).Days > 10;
 
@@ -44,8 +44,10 @@ namespace HotelTransylvania.Models
                 $"Booked by: {Guest.Name}\n" +
                 $"Booked from: {From.ToShortDateString()}\n" +
                 $"Booked to: {To.ToShortDateString()}\n" +
+                $"Booking duration: {BookingLength()}\n" +
+                $"Total cost: {TotalCost.ToString("00.00")}\n" +
                 $"Payment status: {GetPaymentStatus()}\n" +
-                $"Booked Room number: {Room.RoomNumber}\n";
+                $"Booked Room number: {Room.RoomNumber}";
         }
 
         private string GetPaymentStatus() => IsPayed ? "Payed" : "Not Payed";

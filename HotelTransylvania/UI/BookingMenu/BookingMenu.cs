@@ -50,7 +50,8 @@ namespace HotelTransylvania.UI.BookingMenu
                 var guestId = _ui.GetUserInput<int>("Enter guest id: ", validationOptions: CustomTypes.ValidationOptions.Required);
                 var bookingsFound = _bookingService.GetBookingsByGuestId(guestId);
                 var selectedBooking = _ui.PrintMultipleChoiceMenuAndGetInput(bookingsFound);
-
+                var selectedBookingMenu = new SelectedBookingMenu(_ui, _bookingService, selectedBooking);
+                ShowSubMenu(selectedBookingMenu, () => _ui.PrintToScreen(selectedBooking.ToString(), ConsoleColor.Cyan));
             }
             catch (Exception)
             {
@@ -64,8 +65,9 @@ namespace HotelTransylvania.UI.BookingMenu
             {
                 _ui.PrintToScreen("View booking by id", ConsoleColor.Cyan);
                 var bookingId = _ui.GetUserInput<int>("Enter the booking id", validationOptions: CustomTypes.ValidationOptions.Required);
-                var selectedFound = _bookingService.GetBookingById(bookingId);
-
+                var bookingFound = _bookingService.GetBookingById(bookingId);
+                var selectedBookingMenu = new SelectedBookingMenu(_ui, _bookingService, bookingFound);
+                ShowSubMenu(selectedBookingMenu, () => _ui.PrintToScreen(bookingFound.ToString(), ConsoleColor.Cyan));
             }
             catch (Exception)
             {

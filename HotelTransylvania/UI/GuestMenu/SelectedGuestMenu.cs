@@ -55,7 +55,7 @@ namespace HotelTransylvania.UI.GuestMenu
             }
             catch (Exception e)
             {
-                _ui.PrintNotification($"Error while updating the guest infomration, Error: {e.Message}", ConsoleColor.Red);
+                _ui.PrintNotification(e.Message, ConsoleColor.Red);
             }
         }
 
@@ -72,7 +72,7 @@ namespace HotelTransylvania.UI.GuestMenu
                 }
                 catch (Exception e)
                 {
-                    _ui.PrintNotification($"Error while removing a guest, Error: {e.Message}", ConsoleColor.Red);
+                    _ui.PrintNotification(e.Message, ConsoleColor.Red);
                 }
             }
         }
