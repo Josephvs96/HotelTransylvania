@@ -16,5 +16,8 @@ namespace HotelTransylvania.Models
         [Precision(10, 2)]
         [DataType(DataType.Currency)]
         public decimal Amount { get; set; }
+
+        [Required]
+        public DateTime PayedAtUTC { get; set; }
     }
 }

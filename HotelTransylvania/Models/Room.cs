@@ -30,25 +30,13 @@ namespace HotelTransylvania.Models
 
         public ICollection<Booking> Bookings { get; set; }
 
-        public bool IsRoomAvaiableByDate(DateTime bookingStart) => !Bookings.Any(b => new DateTimeRange(b.From, b.To).IsInRange(bookingStart));
         public bool IsRoomAvaiableByDateRange(DateTimeRange bookingRange) => !Bookings.Any(b => bookingRange.Intersects(new DateTimeRange(b.From, b.To)));
+
         public override string ToString()
         {
-            return $"{IsRoomActive()} - Room number: {RoomNumber} - Type: {RoomType.Type} - Size: {RoomProperties?.RoomSize.ToString("{0:00.00}")} - Total number of beds: {CalculateNumberOfBeds()}";
+            return $"Room number: {RoomNumber} - Type: {RoomType.Type} - Size: {RoomProperties?.RoomSize.ToString("{0:00.00}")} - Price per night: {PricePerNight} - Room status: {IsRoomActive}";
         }
 
-        private string IsRoomActive() => IsActive ? "Active" : "Not Active";
-
-        private int CalculateNumberOfBeds()
-        {
-            switch (RoomType.Type)
-            {
-                case CustomTypes.RoomTypes.Single:
-                    return 1;
-                case CustomTypes.RoomTypes.Double:
-                    return RoomProperties.ExtraBeds.NumberOfExtraBeds.HasValue ? 2 + RoomProperties.ExtraBeds.NumberOfExtraBeds.Value : 2;
-                default: return 0;
-            }
-        }
+        private string IsRoomActive => IsActive ? "Active" : "Not Active";
     }
 }

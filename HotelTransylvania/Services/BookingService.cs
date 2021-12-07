@@ -40,8 +40,13 @@ namespace HotelTransylvania.Services
                 .Include(b => b.Guest)
                 .Include(b => b.Payment)
                 .Include(b => b.Room)
-                .Where(b => b.Guest.Id == id);
+                .Where(b => b.Guest.Id == id && b.To.AddDays(10) > DateTime.UtcNow);
             return bookingsFound.Any() ? bookingsFound : throw new BookingNotFoundException();
+        }
+
+        public IEnumerable<Booking> GetOldDueBookings()
+        {
+            return _db.Bookings.Where(b => !b.IsPayed && b.To.AddDays(10) < DateTime.UtcNow);
         }
 
         public void RemoveBooking(Booking booking)
@@ -54,6 +59,12 @@ namespace HotelTransylvania.Services
         {
             _db.Bookings.Update(booking);
             _db.SaveChanges();
+        }
+
+        public async Task RemoveBookingAsync(Booking booking)
+        {
+            _db.Bookings.Remove(booking);
+            await _db.SaveChangesAsync();
         }
     }
 }

@@ -9,8 +9,9 @@ namespace HotelTransylvania.UI.BookingMenu
         private readonly IBookingService _bookingService;
         private readonly IRoomService _roomService;
         private readonly IGuestService _guestService;
+        private readonly IPaymentService _paymentService;
 
-        public BookingMenu(ConsoleUIService ui, IBookingService bookingService, IRoomService roomService, IGuestService guestService) : base(ui)
+        public BookingMenu(ConsoleUIService ui, IBookingService bookingService, IRoomService roomService, IGuestService guestService, IPaymentService paymentService) : base(ui)
         {
             CollectionName = "Booking Menu";
             MenuItems = new List<MenuItem>
@@ -40,6 +41,7 @@ namespace HotelTransylvania.UI.BookingMenu
             _bookingService = bookingService;
             _roomService = roomService;
             _guestService = guestService;
+            _paymentService = paymentService;
         }
 
         private void HandleViewAllBookingsByGuestId()
@@ -50,7 +52,7 @@ namespace HotelTransylvania.UI.BookingMenu
                 var guestId = _ui.GetUserInput<int>("Enter guest id: ", validationOptions: CustomTypes.ValidationOptions.Required);
                 var bookingsFound = _bookingService.GetBookingsByGuestId(guestId);
                 var selectedBooking = _ui.PrintMultipleChoiceMenuAndGetInput(bookingsFound);
-                var selectedBookingMenu = new SelectedBookingMenu(_ui, _bookingService, selectedBooking);
+                var selectedBookingMenu = new SelectedBookingMenu(_ui, _paymentService, _bookingService, selectedBooking);
                 ShowSubMenu(selectedBookingMenu, () => _ui.PrintToScreen(selectedBooking.ToString(), ConsoleColor.Cyan));
             }
             catch (Exception)
@@ -66,7 +68,7 @@ namespace HotelTransylvania.UI.BookingMenu
                 _ui.PrintToScreen("View booking by id", ConsoleColor.Cyan);
                 var bookingId = _ui.GetUserInput<int>("Enter the booking id", validationOptions: CustomTypes.ValidationOptions.Required);
                 var bookingFound = _bookingService.GetBookingById(bookingId);
-                var selectedBookingMenu = new SelectedBookingMenu(_ui, _bookingService, bookingFound);
+                var selectedBookingMenu = new SelectedBookingMenu(_ui, _paymentService, _bookingService, bookingFound);
                 ShowSubMenu(selectedBookingMenu, () => _ui.PrintToScreen(bookingFound.ToString(), ConsoleColor.Cyan));
             }
             catch (Exception)
@@ -101,7 +103,7 @@ namespace HotelTransylvania.UI.BookingMenu
 
                 _bookingService.AddNewBooking(newBooking);
                 _ui.PrintNotification($"Room {roomToBook.RoomNumber} " +
-                    $"booked for {newBooking.BookingLength()} days" +
+                    $"booked for {newBooking.BookingLength()} days " +
                     $"for total of {newBooking.TotalCost.ToString("00.00")}kr", ConsoleColor.Green);
             }
             catch (Exception e)

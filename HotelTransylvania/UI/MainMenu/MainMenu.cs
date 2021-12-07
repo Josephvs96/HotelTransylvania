@@ -17,7 +17,6 @@ namespace HotelTransylvania.UI.MainMenu
                 new MenuItem { Description = "Rooms Managment", Execute = () => ShowSubMenu(_roomsMenu) },
                 new MenuItem { Description = "Guests Managment", Execute = () => ShowSubMenu(_guestMenu) },
                 new MenuItem { Description = "Bookings Managment", Execute = () => ShowSubMenu(_bookingMenu) },
-                new MenuItem { Description = "Payments Managment", Execute = () => { } },
                 new MenuItem { Description = "Exit", Execute = () => ExitCurrentMenu() }
             };
             _roomsMenu = roomsMenu;

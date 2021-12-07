@@ -26,6 +26,17 @@ namespace HotelTransylvania
             var dbContext = serviceScope.ServiceProvider.GetService<HotelDbContext>();
             DbInitializer.Initialize(dbContext);
 
+            // Starts the old bookings cleaning service
+            var oldBookingsCleaningService = serviceScope.ServiceProvider.GetService<NotPayedBookingsCleanerService>();
+            Thread bookingsCleanerThread = new Thread(new ParameterizedThreadStart(oldBookingsCleaningService.CleanOldBookings))
+            {
+                IsBackground = true,
+                Name = "Old bookings cleaner thread"
+            };
+
+            Int32 sleepTime = 60 * 60;
+            bookingsCleanerThread.Start(sleepTime);
+
             var startup = serviceScope.ServiceProvider.GetService<Startup>();
             startup.Run();
         }
@@ -42,9 +53,11 @@ namespace HotelTransylvania
 
             services.AddSingleton<ConsoleUIService>();
 
+
             services.AddTransient<IGuestService, GuestService>();
             services.AddTransient<IRoomService, RoomService>();
             services.AddTransient<IBookingService, BookingService>();
+            services.AddTransient<IPaymentService, PaymentService>();
             services.AddTransient<Startup>();
 
             // Menues
@@ -52,6 +65,8 @@ namespace HotelTransylvania
             services.AddTransient<GuestMenu>();
             services.AddTransient<RoomsMenu>();
             services.AddTransient<BookingMenu>();
+
+            services.AddScoped<NotPayedBookingsCleanerService>();
         }
     }
 }

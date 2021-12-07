@@ -46,10 +46,10 @@ namespace HotelTransylvania.Models
                 $"Booked to: {To.ToShortDateString()}\n" +
                 $"Booking duration: {BookingLength()}\n" +
                 $"Total cost: {TotalCost.ToString("00.00")}\n" +
-                $"Payment status: {GetPaymentStatus()}\n" +
+                $"Payment status: {GetPaymentStatus}\n" +
                 $"Booked Room number: {Room.RoomNumber}";
         }
 
-        private string GetPaymentStatus() => IsPayed ? "Payed" : "Not Payed";
+        private string GetPaymentStatus => IsPayed ? "Payed" : "Not Payed";
     }
 }

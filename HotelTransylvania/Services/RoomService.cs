@@ -30,7 +30,7 @@ namespace HotelTransylvania.Services
             {
                 case 1:
                     {
-                        return _db.Rooms.Include(r => r.Bookings)
+                        return _db.Rooms.Include(r => r.Bookings.Where(b => b.To > DateTime.UtcNow))
                                     .Include(r => r.RoomType)
                                     .Include(r => r.RoomProperties)
                                     .Where(r =>
@@ -43,15 +43,14 @@ namespace HotelTransylvania.Services
 
                 case > 1:
                     {
-                        return _db.Rooms.Include(r => r.Bookings)
+                        return _db.Rooms.Include(r => r.Bookings.Where(b => b.To > DateTime.UtcNow))
                                     .Include(r => r.RoomProperties)
                                     .ThenInclude(rp => rp.ExtraBeds)
                                     .Include(r => r.RoomType)
                                     .Where(r =>
                                     r.IsActive &&
                                     r.RoomType.Type == RoomTypes.Double &&
-                                    r.RoomProperties.ExtraBeds.NumberOfExtraBeds >= numberOfPeople - 2)
-                                    .ToList()
+                                    r.RoomProperties.ExtraBeds.NumberOfExtraBeds >= numberOfPeople - 2).ToList()
                                     .Where(r => r.IsRoomAvaiableByDateRange(bookingRange));
                     }
 
