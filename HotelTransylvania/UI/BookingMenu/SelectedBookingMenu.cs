@@ -39,6 +39,11 @@ namespace HotelTransylvania.UI.BookingMenu
                 Execute = HandleAddPayment
             });
 
+            // If the booking is payed then you cant delete it can only be viewed NOTHING ELSE! Well.... what ever
+            if (booking.IsPayed)
+            {
+                MenuItems.RemoveRange(0, 2);
+            }
 
             _booking = booking;
             _paymentService = paymentService;

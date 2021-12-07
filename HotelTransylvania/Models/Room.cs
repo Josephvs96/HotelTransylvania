@@ -34,7 +34,7 @@ namespace HotelTransylvania.Models
 
         public override string ToString()
         {
-            return $"Room number: {RoomNumber} - Type: {RoomType.Type} - Size: {RoomProperties?.RoomSize.ToString("{0:00.00}")} - Price per night: {PricePerNight} - Room status: {IsRoomActive}";
+            return $"Room number: {RoomNumber} - Type: {RoomType.Type} - Size: {RoomProperties?.RoomSize.ToString("{0:00.00}")} - Price per night: {PricePerNight}kr - Room status: {IsRoomActive}";
         }
 
         private string IsRoomActive => IsActive ? "Active" : "Not Active";

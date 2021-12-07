@@ -26,7 +26,7 @@ namespace HotelTransylvania
             var dbContext = serviceScope.ServiceProvider.GetService<HotelDbContext>();
             DbInitializer.Initialize(dbContext);
 
-            // Starts the old bookings cleaning service
+            // Starts the old bookings cleaning service on a separate thread
             var oldBookingsCleaningService = serviceScope.ServiceProvider.GetService<NotPayedBookingsCleanerService>();
             Thread bookingsCleanerThread = new Thread(new ParameterizedThreadStart(oldBookingsCleaningService.CleanOldBookings))
             {

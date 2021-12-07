@@ -70,10 +70,19 @@ namespace HotelTransylvania.UI.RoomMenu
 
         private void HandleEditRoomPrice()
         {
-            _ui.PrintToScreen("Please enter the values required to be changed, leave empty to use the current value", ConsoleColor.Cyan);
-            var newPrice = _ui.GetUserInput<decimal>($"Enter the new room price per night (Current: {_room.PricePerNight}kr): ");
-            _room.PricePerNight = newPrice == -1 ? _room.PricePerNight : newPrice;
-            _roomService.UpdateRoom(_room);
+            try
+            {
+                _ui.PrintToScreen("Please enter the values required to be changed, leave empty to use the current value", ConsoleColor.Cyan);
+                var newPrice = _ui.GetUserInput<decimal>($"Enter the new room price per night (Current: {_room.PricePerNight}kr): ");
+                _room.PricePerNight = newPrice == -1 ? _room.PricePerNight : newPrice;
+                _roomService.UpdateRoom(_room);
+                _ui.PrintNotification("Room price updated!", ConsoleColor.Green);
+            }
+            catch (Exception)
+            {
+
+                _ui.PrintNotification("Error while updating room price", ConsoleColor.Red);
+            }
         }
     }
 }

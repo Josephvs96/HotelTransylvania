@@ -40,7 +40,8 @@ namespace HotelTransylvania.Services
                 .Include(b => b.Guest)
                 .Include(b => b.Payment)
                 .Include(b => b.Room)
-                .Where(b => b.Guest.Id == id && b.To.AddDays(10) > DateTime.UtcNow);
+                .Where(b => b.Guest.Id == id)
+                .OrderBy(b => b.From);
             return bookingsFound.Any() ? bookingsFound : throw new BookingNotFoundException();
         }
 

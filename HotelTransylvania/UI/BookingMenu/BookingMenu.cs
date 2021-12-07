@@ -23,12 +23,12 @@ namespace HotelTransylvania.UI.BookingMenu
                 },
                 new MenuItem
                 {
-                    Description = "Search for a booking by id",
+                    Description = "View booking by id",
                     Execute = HandleSearchByBookingId
                 },
                 new MenuItem
                 {
-                    Description = "View bookings by guest id",
+                    Description = "List all bookings by guest id",
                     Execute = HandleViewAllBookingsByGuestId
                 },
                 new MenuItem
