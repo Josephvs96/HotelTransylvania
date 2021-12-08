@@ -1,5 +1,5 @@
 ﻿using HotelTransylvania.Models;
-
+using Microsoft.EntityFrameworkCore;
 
 namespace HotelTransylvania.DataAccess
 {
@@ -7,7 +7,7 @@ namespace HotelTransylvania.DataAccess
     {
         public static void Initialize(HotelDbContext context)
         {
-            context.Database.EnsureCreated();
+            context.Database.Migrate();
 
             if (context.Rooms.Any())
             {
